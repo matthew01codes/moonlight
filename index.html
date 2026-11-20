@@ -1,0 +1,1296 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moonlit — My Little Universe</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Dancing+Script:wght@500;600;700&family=Pacifico&family=Caveat:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg:#fff8fc;
+  --panel:#ffffff;
+  --text:#493b51;
+  --muted:#9d8ba2;
+  --accent:#d77eb1;
+  --accent2:#a78bdb;
+  --soft:#f8eaf4;
+  --border:#f0e3ee;
+  --shadow:0 12px 40px #a77b9b12;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  background:
+    radial-gradient(circle at 90% 5%,#f5e7ff 0,transparent 30%),
+    radial-gradient(circle at 0% 90%,#ffe8f0 0,transparent 30%),
+    var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  transition:.3s;
+}
+
+button,input,textarea,select { font:inherit; }
+button { cursor:pointer; }
+
+.app {
+  display:grid;
+  grid-template-columns:245px 1fr;
+  min-height:100vh;
+}
+
+.sidebar {
+  background:#ffffffb8;
+  backdrop-filter:blur(18px);
+  border-right:1px solid var(--border);
+  padding:30px 19px;
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+.logo {
+  font-family:'Pacifico',cursive;
+  color:var(--accent);
+  font-size:27px;
+  padding:5px 12px 0;
+}
+
+.logo-sub {
+  font-size:10px;
+  letter-spacing:3px;
+  color:var(--muted);
+  padding-left:14px;
+  margin-bottom:42px;
+}
+
+.nav-label {
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:2px;
+  font-weight:700;
+  padding:0 12px;
+  margin:18px 0 10px;
+}
+
+.nav-btn {
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:13px 14px;
+  border-radius:13px;
+  width:100%;
+  text-align:left;
+  margin-bottom:5px;
+  transition:.2s;
+  font-size:13px;
+}
+
+.nav-btn:hover,.nav-btn.active {
+  background:var(--soft);
+  color:var(--accent);
+  transform:translateX(3px);
+}
+
+.nav-btn span { margin-right:11px; }
+
+.sidebar-bottom {
+  margin-top:auto;
+  background:linear-gradient(135deg,#fce9f4,#eee8ff);
+  padding:18px;
+  border-radius:18px;
+  text-align:center;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.main {
+  padding:35px 5%;
+  max-width:1500px;
+  width:100%;
+  margin:auto;
+}
+
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:35px;
+  gap:15px;
+}
+
+.date-label {
+  color:var(--muted);
+  font-size:12px;
+  letter-spacing:1px;
+}
+
+.topbar h2 {
+  font-family:'Playfair Display',serif;
+  font-size:27px;
+  margin:5px 0;
+}
+
+.top-actions { display:flex; gap:10px; }
+
+.icon-btn {
+  border:1px solid var(--border);
+  background:white;
+  padding:11px 14px;
+  border-radius:12px;
+  color:var(--text);
+}
+
+.hero {
+  background:linear-gradient(115deg,#f8ddeb,#eee5ff 65%,#fce9ee);
+  padding:35px;
+  border-radius:25px;
+  position:relative;
+  overflow:hidden;
+  margin-bottom:28px;
+}
+
+.hero h1 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(27px,4vw,40px);
+  margin:0 0 9px;
+  font-weight:600;
+}
+
+.hero p { color:#806c85; font-size:13px; }
+
+.hero .decoration {
+  position:absolute;
+  right:35px;
+  top:15px;
+  font-size:85px;
+  opacity:.5;
+}
+
+.primary-btn {
+  background:linear-gradient(120deg,#d77eb1,#a78bdb);
+  border:0;
+  color:white;
+  padding:13px 21px;
+  border-radius:12px;
+  font-weight:700;
+  box-shadow:0 7px 20px #b785bb35;
+  transition:.2s;
+}
+
+.primary-btn:hover {
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px #b785bb55;
+}
+
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:32px;
+}
+
+.stat-card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:19px;
+  box-shadow:var(--shadow);
+}
+
+.stat-card .emoji { font-size:23px; }
+.stat-card strong { display:block;font-size:25px;margin:8px 0 3px; }
+.stat-card small { color:var(--muted);font-size:11px; }
+
+.section-title {
+  font-family:'Playfair Display',serif;
+  font-size:23px;
+  margin:25px 0 17px;
+}
+
+.quote-card {
+  background:linear-gradient(120deg,#fff0f5,#f2edff);
+  border-radius:19px;
+  padding:23px;
+  margin-bottom:25px;
+  text-align:center;
+}
+
+.quote-card p {
+  font-family:'Dancing Script',cursive;
+  font-size:25px;
+  margin:0 0 8px;
+}
+
+.quote-card small { color:var(--muted); }
+
+.entries-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(225px,1fr));
+  gap:17px;
+}
+
+.entry-card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:19px;
+  padding:20px;
+  cursor:pointer;
+  transition:.25s;
+  min-height:175px;
+  box-shadow:var(--shadow);
+  position:relative;
+}
+
+.entry-card:hover {
+  transform:translateY(-5px);
+  border-color:var(--accent);
+}
+
+.entry-card .entry-date {
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:1px;
+}
+
+.entry-card h3 {
+  font-family:'Playfair Display',serif;
+  font-size:19px;
+  margin:14px 0 8px;
+}
+
+.entry-card p {
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+  overflow-wrap:anywhere;
+}
+
+.entry-card .mood { font-size:19px; }
+
+.empty {
+  grid-column:1/-1;
+  text-align:center;
+  padding:45px 15px;
+  color:var(--muted);
+  background:#ffffff80;
+  border:1px dashed var(--border);
+  border-radius:18px;
+}
+
+.view { display:none; }
+.view.active { display:block; }
+
+.editor {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:clamp(17px,4vw,35px);
+  box-shadow:var(--shadow);
+}
+
+.editor-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.back-btn {
+  border:0;
+  background:var(--soft);
+  color:var(--accent);
+  padding:10px 15px;
+  border-radius:10px;
+}
+
+.editor input[type="text"] {
+  width:100%;
+  border:0;
+  outline:0;
+  font-family:'Playfair Display',serif;
+  font-size:30px;
+  background:transparent;
+  color:var(--text);
+  margin:15px 0;
+}
+
+.editor input[type="date"],
+.editor select {
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.toolbar {
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:13px 0;
+  margin:18px 0;
+}
+
+.tool-btn {
+  background:var(--soft);
+  color:var(--text);
+  border:0;
+  padding:9px 12px;
+  border-radius:8px;
+}
+
+.tool-btn:hover { background:#efd5e9; }
+
+#content {
+  width:100%;
+  min-height:300px;
+  border:0;
+  outline:0;
+  resize:vertical;
+  background:transparent;
+  color:var(--text);
+  font-size:17px;
+  line-height:1.9;
+  padding:15px 3px;
+}
+
+#content.font-classic { font-family:'Playfair Display',serif; }
+#content.font-handwriting { font-family:'Dancing Script',cursive;font-size:23px; }
+#content.font-cute { font-family:'Caveat',cursive;font-size:24px; }
+#content.font-simple { font-family:'Quicksand',sans-serif; }
+#content.font-elegant { font-family:'Pacifico',cursive;font-size:16px; }
+
+.editor-footer {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:15px;
+}
+
+.word-count { color:var(--muted);font-size:11px; }
+
+.mood-options {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin:13px 0;
+}
+
+.mood-option {
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:9px 12px;
+  background:var(--bg);
+  cursor:pointer;
+  font-size:12px;
+}
+
+.mood-option.selected {
+  background:var(--soft);
+  border:2px solid var(--accent);
+}
+
+.tags-input {
+  width:100%;
+  padding:12px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--text);
+  outline:none;
+}
+
+.search-box {
+  width:100%;
+  max-width:400px;
+  padding:13px 16px;
+  border:1px solid var(--border);
+  background:white;
+  border-radius:12px;
+  outline:none;
+  margin-bottom:20px;
+}
+
+.calendar-box {
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  border:1px solid var(--border);
+}
+
+.calendar-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.calendar-grid {
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+  text-align:center;
+}
+
+.calendar-grid div {
+  padding:12px 3px;
+  border-radius:10px;
+  font-size:12px;
+}
+
+.calendar-grid .day-name {
+  color:var(--muted);
+  font-weight:bold;
+}
+
+.calendar-grid .has-entry {
+  background:var(--soft);
+  color:var(--accent);
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.calendar-grid .today { border:1px solid var(--accent); }
+
+.theme-row {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.theme-swatch {
+  width:75px;
+  height:75px;
+  border-radius:17px;
+  border:3px solid white;
+  outline:1px solid var(--border);
+  cursor:pointer;
+}
+
+.theme-swatch.selected { outline:2px solid var(--accent); }
+
+#toast {
+  position:fixed;
+  bottom:25px;
+  left:50%;
+  transform:translate(-50%,100px);
+  background:#514258;
+  color:white;
+  padding:13px 22px;
+  border-radius:30px;
+  font-size:12px;
+  transition:.3s;
+  z-index:10;
+}
+
+#toast.show { transform:translate(-50%,0); }
+
+footer {
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  padding:35px 0 10px;
+}
+
+@media(max-width:800px) {
+  .app { grid-template-columns:1fr; }
+  .sidebar {
+    height:auto;
+    position:relative;
+    padding:13px;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    border-right:0;
+    border-bottom:1px solid var(--border);
+  }
+  .logo { font-size:21px; }
+  .logo-sub,.nav-label,.sidebar-bottom { display:none; }
+  .sidebar nav { display:flex; gap:3px; }
+  .nav-btn { width:auto;padding:10px;font-size:11px;margin:0; }
+  .nav-btn span { margin:0 3px; }
+  .main { padding:23px 17px; }
+  .hero { padding:26px; }
+  .hero .decoration { font-size:55px;right:15px;top:10px; }
+}
+
+@media(max-width:480px) {
+  .stats { grid-template-columns:1fr; }
+  .topbar h2 { font-size:22px; }
+  .nav-btn { font-size:0; }
+  .nav-btn span { font-size:16px; }
+  .hero .decoration { opacity:.25; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div>
+    <div class="logo">Moonlit ✧</div>
+    <div class="logo-sub">YOUR LITTLE UNIVERSE</div>
+  </div>
+
+  <nav>
+    <div class="nav-label">YOUR SPACE</div>
+    <button class="nav-btn active" data-view="home"><span>⌂</span> Home</button>
+    <button class="nav-btn" data-view="all"><span>♡</span> My diaries</button>
+    <button class="nav-btn" data-view="calendar"><span>▦</span> Calendar</button>
+    <button class="nav-btn" data-view="memories"><span>✧</span> Memories</button>
+
+    <div class="nav-label">PERSONALIZE</div>
+    <button class="nav-btn" data-view="settings"><span>⚙</span> Settings</button>
+  </nav>
+
+  <div class="sidebar-bottom">
+    ✨ Every day is a new page.<br>
+    Make yours beautiful.
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- HOME -->
+<section class="view active" id="home">
+
+  <div class="topbar">
+    <div>
+      <div class="date-label" id="todayLabel"></div>
+      <h2>Welcome to your world ♡</h2>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" onclick="exportAll()" title="Export all entries">⇩</button>
+      <button class="icon-btn" onclick="showView('settings')" title="Settings">⚙</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="decoration">🌷</div>
+    <h1>Your story deserves<br>to be remembered.</h1>
+    <p>A little place for all your thoughts, dreams and memories.</p>
+    <button class="primary-btn" onclick="newEntry()">＋ Write today's diary</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="emoji">📖</div>
+      <strong id="totalCount">0</strong>
+      <small>DIARY ENTRIES</small>
+    </div>
+    <div class="stat-card">
+      <div class="emoji">💌</div>
+      <strong id="wordCount">0</strong>
+      <small>WORDS WRITTEN</small>
+    </div>
+    <div class="stat-card">
+      <div class="emoji">🌸</div>
+      <strong id="memoryCount">0</strong>
+      <small>SPECIAL MEMORIES</small>
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <p id="quote">"Collect moments, not things."</p>
+    <small>✧ A little reminder for you ✧</small>
+  </div>
+
+  <h2 class="section-title">Recently written ♡</h2>
+  <div class="entries-grid" id="recentEntries"></div>
+
+</section>
+
+<!-- ALL DIARIES -->
+<section class="view" id="all">
+  <div class="topbar">
+    <div>
+      <div class="date-label">YOUR PERSONAL COLLECTION</div>
+      <h2>All your diaries ♡</h2>
+    </div>
+    <button class="primary-btn" onclick="newEntry()">＋ New diary</button>
+  </div>
+
+  <input class="search-box" id="search" placeholder="🔍 Search your memories..." oninput="renderAll()">
+
+  <div class="entries-grid" id="allEntries"></div>
+</section>
+
+<!-- EDITOR -->
+<section class="view" id="editor">
+  <div class="editor">
+    <div class="editor-top">
+      <button class="back-btn" onclick="showView('all')">← Back to diaries</button>
+      <span class="word-count" id="saveStatus">A fresh new page ✨</span>
+    </div>
+
+    <input type="text" id="title" placeholder="Give your day a title...">
+
+    <label class="date-label">DATE OF YOUR STORY</label><br><br>
+    <input type="date" id="entryDate">
+
+    <h4>How are you feeling today? ♡</h4>
+    <div class="mood-options" id="moods">
+      <button class="mood-option selected" data-mood="😊">😊 Happy</button>
+      <button class="mood-option" data-mood="🥰">🥰 Loved</button>
+      <button class="mood-option" data-mood="✨">✨ Excited</button>
+      <button class="mood-option" data-mood="😌">😌 Calm</button>
+      <button class="mood-option" data-mood="🥺">🥺 Emotional</button>
+      <button class="mood-option" data-mood="🌧️">🌧️ Sad</button>
+      <button class="mood-option" data-mood="🙏">🙏 Grateful</button>
+    </div>
+
+    <h4>Choose your writing style ✍️</h4>
+    <select id="fontChoice">
+      <option value="font-classic">Classic — Elegant</option>
+      <option value="font-handwriting">Handwriting — Romantic</option>
+      <option value="font-cute">Cute — Playful</option>
+      <option value="font-simple">Simple — Minimal</option>
+      <option value="font-elegant">Fancy — Artistic</option>
+    </select>
+
+    <div class="toolbar">
+      <button class="tool-btn" onclick="insertText('♡ ')">♡ Heart</button>
+      <button class="tool-btn" onclick="insertText('✨ ')">✨ Sparkle</button>
+      <button class="tool-btn" onclick="insertText('\n\n')">↵ New paragraph</button>
+      <button class="tool-btn" onclick="insertText('Dear diary, ')">Dear diary</button>
+    </div>
+
+    <textarea id="content" class="font-classic"
+      placeholder="Dear diary...
+
+Today was one of those days I want to remember forever.
+
+Write everything here. Your happiest moments, random thoughts, little secrets, dreams and everything in between...
+
+This space belongs only to you. ♡"></textarea>
+
+    <div class="word-count" id="liveWords">0 words · 0 characters</div>
+
+    <h4>Little tags for this day</h4>
+    <input class="tags-input" id="tags" placeholder="friends, college, happiness, memories...">
+
+    <div class="editor-footer">
+      <button class="back-btn" onclick="downloadCurrent()">⇩ Download</button>
+      <button class="primary-btn" onclick="saveEntry()">Save my memories ♡</button>
+    </div>
+  </div>
+</section>
+
+<!-- CALENDAR -->
+<section class="view" id="calendar">
+  <div class="topbar">
+    <div>
+      <div class="date-label">YOUR DAYS, YOUR STORIES</div>
+      <h2>Memory calendar 🌙</h2>
+    </div>
+  </div>
+
+  <div class="calendar-box">
+    <div class="calendar-header">
+      <button class="icon-btn" onclick="changeMonth(-1)">←</button>
+      <h3 id="monthTitle"></h3>
+      <button class="icon-btn" onclick="changeMonth(1)">→</button>
+    </div>
+    <div class="calendar-grid" id="calendarGrid"></div>
+  </div>
+  <p class="date-label">♡ Days with a pink background have saved diary entries. Tap a day to explore.</p>
+</section>
+
+<!-- MEMORIES -->
+<section class="view" id="memories">
+  <div class="topbar">
+    <div>
+      <div class="date-label">THE MOMENTS THAT MATTER</div>
+      <h2>Your memory vault 💌</h2>
+    </div>
+  </div>
+  <p style="color:var(--muted);font-size:13px">
+    Mark your favourite diary entries to keep them close to your heart.
+  </p>
+  <div class="entries-grid" id="memoryEntries"></div>
+</section>
+
+<!-- SETTINGS -->
+<section class="view" id="settings">
+  <div class="topbar">
+    <div>
+      <div class="date-label">MAKE IT YOURS</div>
+      <h2>Your little settings ⚙</h2>
+    </div>
+  </div>
+
+  <div class="editor">
+    <h3>Choose your universe's colour 🎨</h3>
+    <p class="date-label">Change the entire atmosphere of your diary.</p>
+    <div class="theme-row">
+      <button class="theme-swatch selected" style="background:linear-gradient(135deg,#f8ddeb,#eee5ff)" onclick="setTheme('pink',this)" title="Pink"></button>
+      <button class="theme-swatch" style="background:linear-gradient(135deg,#dcecff,#d6d7ff)" onclick="setTheme('blue',this)" title="Dreamy blue"></button>
+      <button class="theme-swatch" style="background:linear-gradient(135deg,#d9f0e2,#eff6ce)" onclick="setTheme('green',this)" title="Sage"></button>
+      <button class="theme-swatch" style="background:linear-gradient(135deg,#292238,#69527e)" onclick="setTheme('dark',this)" title="Midnight"></button>
+      <button class="theme-swatch" style="background:linear-gradient(135deg,#ffe3cc,#ffeddb)" onclick="setTheme('peach',this)" title="Peach"></button>
+    </div>
+
+    <hr style="border:0;border-top:1px solid var(--border);margin:30px 0">
+
+    <h3>Your data & privacy 🔐</h3>
+    <p style="color:var(--muted);font-size:13px;line-height:1.8">
+      Your entries are saved in this browser using localStorage.
+      They are not automatically uploaded to an online account.
+      Clearing browser data or changing devices may remove or hide them.
+      Export a backup regularly.
+    </p>
+    <button class="primary-btn" onclick="exportAll()">⇩ Export all my diaries</button>
+  </div>
+</section>
+
+<footer>Made with ♡ for your little universe · Moonlit Journal</footer>
+
+</main>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ===============================
+// MOONLIT DIARY — JAVASCRIPT
+// ===============================
+
+const STORAGE_KEY = 'moonlit_diary_entries_v1';
+
+let entries = [];
+let currentId = null;
+let selectedMood = '😊';
+let calendarDate = new Date();
+
+const quotes = [
+  '"Collect moments, not things."',
+  '"Your story is still being written."',
+  '"Some days are for memories, some are for lessons."',
+  '"You are allowed to bloom at your own pace."',
+  '"Little things make life beautiful."',
+  '"Every sunset brings the promise of a new dawn."',
+  '"Write what your heart cannot say out loud."'
+];
+
+function loadEntries() {
+  try {
+    entries = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    if (!Array.isArray(entries)) entries = [];
+  } catch {
+    entries = [];
+  }
+}
+
+function persist() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+    return true;
+  } catch {
+    notify('Storage full! Export your diaries to keep a backup.');
+    return false;
+  }
+}
+
+function notify(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2400);
+}
+
+function showView(view) {
+  document.querySelectorAll('.view').forEach(v =>
+    v.classList.remove('active')
+  );
+
+  document.getElementById(view).classList.add('active');
+
+  document.querySelectorAll('.nav-btn').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.view === view)
+  );
+
+  if (view === 'home') renderHome();
+  if (view === 'all') renderAll();
+  if (view === 'calendar') renderCalendar();
+  if (view === 'memories') renderMemories();
+}
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => showView(btn.dataset.view));
+});
+
+// Create a fresh diary
+function newEntry() {
+  currentId = null;
+  selectedMood = '😊';
+
+  document.getElementById('title').value = '';
+  document.getElementById('entryDate').value = localDate();
+  document.getElementById('content').value = '';
+  document.getElementById('tags').value = '';
+  document.getElementById('fontChoice').value = 'font-classic';
+
+  updateFont();
+
+  document.querySelectorAll('.mood-option').forEach(btn => {
+    btn.classList.toggle('selected', btn.dataset.mood === selectedMood);
+  });
+
+  document.getElementById('saveStatus').textContent = 'A fresh new page ✨';
+  updateWordCount();
+  showView('editor');
+}
+
+// Open existing diary
+function openEntry(id) {
+  const entry = entries.find(e => e.id === id);
+  if (!entry) return;
+
+  currentId = id;
+  selectedMood = entry.mood || '😊';
+
+  document.getElementById('title').value = entry.title;
+  document.getElementById('entryDate').value = entry.date;
+  document.getElementById('content').value = entry.content;
+  document.getElementById('tags').value = (entry.tags || []).join(', ');
+  document.getElementById('fontChoice').value = entry.font || 'font-classic';
+
+  updateFont();
+
+  document.querySelectorAll('.mood-option').forEach(btn => {
+    btn.classList.toggle('selected', btn.dataset.mood === selectedMood);
+  });
+
+  document.getElementById('saveStatus').textContent = 'Editing your memory ✨';
+  updateWordCount();
+  showView('editor');
+}
+
+// Mood selection
+document.querySelectorAll('.mood-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    selectedMood = btn.dataset.mood;
+    document.querySelectorAll('.mood-option').forEach(b =>
+      b.classList.toggle('selected', b === btn)
+    );
+  });
+});
+
+// Font selection
+document.getElementById('fontChoice').addEventListener('change', updateFont);
+
+function updateFont() {
+  const content = document.getElementById('content');
+  content.className = document.getElementById('fontChoice').value;
+}
+
+// Word count
+document.getElementById('content').addEventListener('input', updateWordCount);
+
+function updateWordCount() {
+  const text = document.getElementById('content').value;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+
+  document.getElementById('liveWords').textContent =
+    words + ' words · ' + text.length + ' characters';
+}
+
+// Insert special text at cursor
+function insertText(value) {
+  const field = document.getElementById('content');
+  const start = field.selectionStart;
+  const end = field.selectionEnd;
+
+  field.setRangeText(value, start, end, 'end');
+  field.focus();
+  updateWordCount();
+}
+
+// Save diary
+function saveEntry() {
+  const title = document.getElementById('title').value.trim();
+  const date = document.getElementById('entryDate').value;
+  const content = document.getElementById('content').value.trim();
+
+  if (!title) {
+    notify('Give your diary a beautiful title first ♡');
+    document.getElementById('title').focus();
+    return;
+  }
+
+  if (!date) {
+    notify('Please choose a date.');
+    return;
+  }
+
+  if (!content) {
+    notify('Write a little something before saving ✨');
+    document.getElementById('content').focus();
+    return;
+  }
+
+  const existing = entries.find(e => e.id === currentId);
+
+  const entry = {
+    id: currentId || (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString()),
+    title,
+    date,
+    content,
+    mood: selectedMood,
+    font: document.getElementById('fontChoice').value,
+    tags: document.getElementById('tags').value
+      .split(',')
+      .map(t => t.trim())
+      .filter(Boolean),
+    favorite: existing ? existing.favorite : false,
+    updated: new Date().toISOString()
+  };
+
+  if (existing) {
+    entries = entries.map(e => e.id === currentId ? entry : e);
+  } else {
+    entries.unshift(entry);
+    currentId = entry.id;
+  }
+
+  if (persist()) {
+    notify('Your beautiful memory has been saved ♡');
+    renderHome();
+    showView('home');
+  }
+}
+
+// Safe text display
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#039;'
+  })[char]);
+}
+
+// Diary card
+function createCard(entry) {
+  const card = document.createElement('article');
+  card.className = 'entry-card';
+
+  const preview = entry.content.replace(/\s+/g, ' ').slice(0, 95);
+
+  card.innerHTML = `
+    <div class="entry-date">${escapeHTML(entry.date)}</div>
+    <div style="display:flex;justify-content:space-between;margin-top:12px">
+      <span class="mood">${escapeHTML(entry.mood || '😊')}</span>
+      <button class="icon-btn favorite-btn" title="Toggle favourite"
+        aria-label="Toggle favourite">${entry.favorite ? '♥' : '♡'}</button>
+    </div>
+    <h3>${escapeHTML(entry.title)}</h3>
+    <p>${escapeHTML(preview)}${entry.content.length > 95 ? '...' : ''}</p>
+    <small style="color:var(--accent)">${(entry.tags || []).map(escapeHTML).join(' · ')}</small>
+    <div style="display:flex;gap:8px;margin-top:15px">
+      <button class="back-btn open-btn">Open diary →</button>
+      <button class="back-btn delete-btn" title="Delete diary">🗑</button>
+    </div>
+  `;
+
+  card.querySelector('.open-btn').addEventListener('click', e => {
+    e.stopPropagation();
+    openEntry(entry.id);
+  });
+
+  card.querySelector('.favorite-btn').addEventListener('click', e => {
+    e.stopPropagation();
+    entry.favorite = !entry.favorite;
+    persist();
+    renderCurrentView();
+  });
+
+  card.querySelector('.delete-btn').addEventListener('click', e => {
+    e.stopPropagation();
+    deleteEntry(entry.id);
+  });
+
+  card.addEventListener('click', () => openEntry(entry.id));
+
+  return card;
+}
+
+function renderCurrentView() {
+  if (document.getElementById('home').classList.contains('active')) renderHome();
+  if (document.getElementById('all').classList.contains('active')) renderAll();
+  if (document.getElementById('memories').classList.contains('active')) renderMemories();
+}
+
+function renderHome() {
+  const totalWords = entries.reduce((sum,e) =>
+    sum + (e.content.trim() ? e.content.trim().split(/\s+/).length : 0), 0);
+
+  document.getElementById('totalCount').textContent = entries.length;
+  document.getElementById('wordCount').textContent = totalWords;
+  document.getElementById('memoryCount').textContent =
+    entries.filter(e => e.favorite).length;
+
+  document.getElementById('todayLabel').textContent =
+    new Date().toLocaleDateString('en-US', {
+      weekday:'long',month:'long',day:'numeric',year:'numeric'
+    }).toUpperCase();
+
+  const container = document.getElementById('recentEntries');
+  container.replaceChildren();
+
+  const recent = [...entries].sort((a,b) =>
+    b.date.localeCompare(a.date) ||
+    b.updated.localeCompare(a.updated)
+  ).slice(0,3);
+
+  if (!recent.length) {
+    container.innerHTML = '<div class="empty">🌷<br><br>Your first story is waiting to be written.<br>Start your beautiful journey!</div>';
+  } else {
+    recent.forEach(entry => container.appendChild(createCard(entry)));
+  }
+
+  document.getElementById('quote').textContent =
+    quotes[new Date().getDate() % quotes.length];
+}
+
+function renderAll() {
+  const search = document.getElementById('search').value.toLowerCase();
+  const container = document.getElementById('allEntries');
+  container.replaceChildren();
+
+  const filtered = [...entries]
+    .filter(e =>
+      (e.title + ' ' + e.content + ' ' + (e.tags || []).join(' '))
+        .toLowerCase().includes(search)
+    )
+    .sort((a,b) => b.date.localeCompare(a.date));
+
+  if (!filtered.length) {
+    container.innerHTML = '<div class="empty">💌<br><br>No diary found.<br>Start writing your memories!</div>';
+    return;
+  }
+
+  filtered.forEach(e => container.appendChild(createCard(e)));
+}
+
+function renderMemories() {
+  const container = document.getElementById('memoryEntries');
+  container.replaceChildren();
+
+  const favorites = entries.filter(e => e.favorite);
+
+  if (!favorites.length) {
+    container.innerHTML = '<div class="empty">💗<br><br>Your favourite memories will live here.<br>Tap the heart on a diary entry to save it.</div>';
+    return;
+  }
+
+  favorites.forEach(e => container.appendChild(createCard(e)));
+}
+
+function deleteEntry(id) {
+  if (!confirm('Are you sure you want to delete this diary?')) return;
+
+  entries = entries.filter(e => e.id !== id);
+  persist();
+  renderCurrentView();
+  renderHome();
+  notify('Diary deleted.');
+}
+
+// Calendar
+function changeMonth(amount) {
+  calendarDate.setMonth(calendarDate.getMonth() + amount);
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+
+  document.getElementById('monthTitle').textContent =
+    calendarDate.toLocaleDateString('en-US', {month:'long',year:'numeric'});
+
+  const grid = document.getElementById('calendarGrid');
+  grid.replaceChildren();
+
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(day => {
+    const cell = document.createElement('div');
+    cell.className = 'day-name';
+    cell.textContent = day;
+    grid.appendChild(cell);
+  });
+
+  const firstDay = new Date(year,month,1).getDay();
+  const days = new Date(year,month+1,0).getDate();
+  const today = localDate();
+
+  for (let i=0;i<firstDay;i++) {
+    grid.appendChild(document.createElement('div'));
+  }
+
+  for (let day=1;day<=days;day++) {
+    const date = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const cell = document.createElement('div');
+    cell.textContent = day;
+
+    if (entries.some(e => e.date === date)) {
+      cell.classList.add('has-entry');
+      cell.title = 'Open diary entries for this date';
+      cell.addEventListener('click', () => {
+        const match = entries.find(e => e.date === date);
+        if (match) openEntry(match.id);
+      });
+    }
+
+    if (date === today) cell.classList.add('today');
+
+    grid.appendChild(cell);
+  }
+}
+
+// Download one diary
+function downloadCurrent() {
+  const title = document.getElementById('title').value || 'My Diary';
+
+  const text = [
+    title,
+    'Date: ' + document.getElementById('entryDate').value,
+    'Mood: ' + selectedMood,
+    '',
+    document.getElementById('content').value,
+    '',
+    'Tags: ' + document.getElementById('tags').value,
+    '',
+    'Made with Moonlit ♡'
+  ].join('\n');
+
+  downloadFile(title.replace(/[^a-z0-9]/gi,'_') + '.txt', text, 'text/plain');
+}
+
+// Export all diaries
+function exportAll() {
+  if (!entries.length) {
+    notify('There are no diaries to export yet.');
+    return;
+  }
+
+  downloadFile(
+    'moonlit-backup.json',
+    JSON.stringify(entries,null,2),
+    'application/json'
+  );
+
+  notify('Your diary backup is ready ♡');
+}
+
+function downloadFile(name,content,type) {
+  const blob = new Blob([content],{type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+
+  a.href = url;
+  a.download = name;
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+// Themes
+const themes = {
+  pink: {
+    bg:'#fff8fc',panel:'#ffffff',text:'#493b51',
+    muted:'#9d8ba2',accent:'#d77eb1',accent2:'#a78bdb',
+    soft:'#f8eaf4',border:'#f0e3ee'
+  },
+  blue: {
+    bg:'#f5f8ff',panel:'#ffffff',text:'#35435e',
+    muted:'#8794b0',accent:'#7695d4',accent2:'#9c91dc',
+    soft:'#e8efff',border:'#dfe7f5'
+  },
+  green: {
+    bg:'#f5faf6',panel:'#ffffff',text:'#405c4c',
+    muted:'#8a9d90',accent:'#6eae89',accent2:'#9cbd8a',
+    soft:'#e6f3e9',border:'#deebe1'
+  },
+  peach: {
+    bg:'#fff8f1',panel:'#ffffff',text:'#684d40',
+    muted:'#a48b7e',accent:'#d98f68',accent2:'#dfac83',
+    soft:'#fff0e3',border:'#f2e3d6'
+  },
+  dark: {
+    bg:'#211c2c',panel:'#30283c',text:'#f2e8f5',
+    muted:'#b4a4c0',accent:'#d69ac8',accent2:'#b09ae4',
+    soft:'#44344e',border:'#51415d'
+  }
+};
+
+function setTheme(name,button) {
+  const theme = themes[name];
+
+  Object.entries(theme).forEach(([key,value]) => {
+    document.documentElement.style.setProperty('--' + key,value);
+  });
+
+  document.querySelectorAll('.theme-swatch').forEach(b =>
+    b.classList.remove('selected')
+  );
+
+  button.classList.add('selected');
+
+  try {
+    localStorage.setItem('moonlit_theme',name);
+  } catch {}
+
+  notify('Your universe has a new look ✨');
+}
+
+function restoreTheme() {
+  let saved = 'pink';
+  try {
+    saved = localStorage.getItem('moonlit_theme') || 'pink';
+  } catch {}
+
+  const theme = themes[saved] || themes.pink;
+
+  Object.entries(theme).forEach(([key,value]) => {
+    document.documentElement.style.setProperty('--' + key,value);
+  });
+
+  document.querySelectorAll('.theme-swatch').forEach(btn => {
+    btn.classList.toggle(
+      'selected',
+      btn.getAttribute('title').toLowerCase() ===
+      (saved === 'dark' ? 'midnight' : saved === 'blue' ? 'dreamy blue' : saved === 'green' ? 'sage' : saved)
+    );
+  });
+}
+
+function localDate() {
+  const now = new Date();
+  const offset = now.getTimezoneOffset() * 60000;
+  return new Date(now.getTime() - offset).toISOString().slice(0,10);
+}
+
+// Initialize
+loadEntries();
+restoreTheme();
+renderHome();
+</script>
+</body>
+</html>
